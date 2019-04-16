@@ -10,21 +10,23 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
-# Train the model using our training data (75% training, 25% testing)
-
-# Make predictions based on our testing dataset
-
-# Compute mean square error of our application and R squared score
-# of our model.
-
 
 def add_arguments(parser):
     """
         Add arguments to the arg parser
     """
-    parser.add_argument("-d, --data", dest="dataframe", action="store_true")
-    parser.add_argument("-c, --correlation", dest="correlation", action="store_true")
-    parser.add_argument("-t, --test", dest="test_models", action="store_true")
+    parser.add_argument(
+        "-c, --correlation",
+        dest="correlation",
+        action="store_true",
+        help="Plot the correlation of the boston markets features ",
+    )
+    parser.add_argument(
+        "-t, --test",
+        dest="test_models",
+        action="store_true",
+        help="Test out our linear regression models",
+    )
 
 
 def create_dataframe():
@@ -147,10 +149,13 @@ def main():
         Main function for handling the CLI interaction
     """
     # Instantiate the arg parser with a description
-    parser = argparse.ArgumentParser(description="Working with the boston dataset")
+    parser = argparse.ArgumentParser(
+        description="A command line tool for working with the boston dataset"
+    )
 
     # build out our arg parser
     add_arguments(parser)
+
     # parse the arguments entered by the userhj
     args = parser.parse_args()
     dataframe = create_dataframe()
