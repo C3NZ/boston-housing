@@ -8,6 +8,7 @@ from sklearn.datasets import load_boston
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 # Train the model using our training data (75% training, 25% testing)
 
@@ -96,6 +97,49 @@ def test_models(dataframe):
     print(
         f"mean squared error mean: {sum(mean_squared_errors) / len(mean_squared_errors)}"
     )
+    print()
+
+    print("Testing a model with standard scaling applied")
+    r2_scores = []
+    mean_squared_errors = []
+    stdScaler = StandardScaler()
+    for i in range(50):
+        # Create training data
+        X_train, X_test, y_train, y_test = get_model_data(dataframe)
+        linear_reg = create_model(stdScaler.fit_transform(X_train), y_train)
+
+        # Predict y values and then score our model
+        y_pred = linear_reg.predict(stdScaler.fit_transform(X_test))
+        r2_scores.append(r2_score(y_pred, y_test))
+        mean_squared_errors.append(mean_squared_error(y_pred, y_test))
+
+    print("All tests have finished running.")
+    print(f"r^2 score mean: {sum(r2_scores) / len(r2_scores)}")
+    print(
+        f"mean squared error mean: {sum(mean_squared_errors) / len(mean_squared_errors)}"
+    )
+    print()
+
+    print("Testing a model with min max scaling applied")
+    r2_scores = []
+    mean_squared_errors = []
+    minMaxScaler = MinMaxScaler()
+    for i in range(50):
+        # Create training data
+        X_train, X_test, y_train, y_test = get_model_data(dataframe)
+        linear_reg = create_model(minMaxScaler.fit_transform(X_train), y_train)
+
+        # Predict y values and then score our model
+        y_pred = linear_reg.predict(minMaxScaler.fit_transform(X_test))
+        r2_scores.append(r2_score(y_pred, y_test))
+        mean_squared_errors.append(mean_squared_error(y_pred, y_test))
+
+    print("All tests have finished running.")
+    print(f"r^2 score mean: {sum(r2_scores) / len(r2_scores)}")
+    print(
+        f"mean squared error mean: {sum(mean_squared_errors) / len(mean_squared_errors)}"
+    )
+    print()
 
 
 def main():
