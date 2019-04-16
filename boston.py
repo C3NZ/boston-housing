@@ -25,7 +25,7 @@ def add_arguments(parser):
         "-t, --test",
         dest="test_models",
         action="store_true",
-        help="Test out our linear regression models",
+        help="Test out our linear regression models and compare the results",
     )
 
 
