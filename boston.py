@@ -6,6 +6,7 @@ import pandas as pd
 import seaborn as sns
 from sklearn.datasets import load_boston
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 
 # Train the model using our training data (75% training, 25% testing)
@@ -22,10 +23,13 @@ def add_arguments(parser):
     """
     parser.add_argument("-d, --data", dest="dataframe", action="store_true")
     parser.add_argument("-c, --correlation", dest="correlation", action="store_true")
-    parser.print_help
+    parser.add_argument("-t, --test", dest="test_models", action="store_true")
 
 
 def create_dataframe():
+    """
+        Creete the boston housing dataframe
+    """
     # Load the boston dataset
     boston = load_boston()
 
@@ -40,7 +44,6 @@ def get_model_data(dataframe):
     """
         Get the training and testing data
     """
-    print("Creating model data")
     X_data = []
     y_data = []
 
@@ -56,9 +59,8 @@ def get_model_data(dataframe):
 
 def create_model(X_data, y_data):
     """
-        Linear regression data
+        Create the Linear regression model
     """
-    print("Creating linear regression model")
     linear_reg = LinearRegression()
     linear_reg.fit(X_data, y_data)
     return linear_reg
@@ -68,16 +70,33 @@ def get_correlation(dataframe):
     """
         Correlate our data
     """
-
-    X_train, X_test, y_train, y_test = get_model_data(dataframe)
-
-    linear_reg = create_model(X_train, y_train)
-
     corr = dataframe.corr()
     sns.heatmap(corr, xticklabels=corr.columns, yticklabels=corr.columns)
     plt.show()
 
-def test_models(1)
+
+def test_models(dataframe):
+
+    print("---STARTING MODEL TESTS---")
+    print("Testing a model with no scaling applied")
+    r2_scores = []
+    mean_squared_errors = []
+    for i in range(50):
+        # Create training data
+        X_train, X_test, y_train, y_test = get_model_data(dataframe)
+        linear_reg = create_model(X_train, y_train)
+
+        # Predict y values and then score our model
+        y_pred = linear_reg.predict(X_test)
+        r2_scores.append(r2_score(y_pred, y_test))
+        mean_squared_errors.append(mean_squared_error(y_pred, y_test))
+
+    print("All tests have finished running.")
+    print(f"r^2 score mean: {sum(r2_scores) / len(r2_scores)}")
+    print(
+        f"mean squared error mean: {sum(mean_squared_errors) / len(mean_squared_errors)}"
+    )
+
 
 def main():
     """
@@ -94,6 +113,9 @@ def main():
 
     if args.correlation:
         get_correlation(dataframe)
+
+    if args.test_models:
+        test_models(dataframe)
 
 
 if __name__ == "__main__":
