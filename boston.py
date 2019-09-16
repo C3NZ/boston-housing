@@ -134,7 +134,7 @@ def test_models(dataframe):
         linear_reg = create_model(min_max_scaler.fit_transform(X_train), y_train)
 
         # Predict y values and then score our model
-        y_pred = linear_reg.predict(min_max_scaler.fit_transform(X_test))
+        y_pred = linear_reg.predict(min_max_scaler.transform(X_test))
         r2_scores.append(r2_score(y_test, y_pred))
         mean_squared_errors.append(mean_squared_error(y_pred, y_test))
 
