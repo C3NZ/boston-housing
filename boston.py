@@ -79,11 +79,18 @@ def get_correlation(dataframe):
 
 
 def test_models(dataframe):
+    """
+        Test out linear regression models with different types of data scaling
+    """
 
     print("---STARTING MODEL TESTS---")
     print("Testing a model with no scaling applied")
+
+    # Setup vars for the non scaled data
     r2_scores = []
     mean_squared_errors = []
+
+    # Run through 50 iterations
     for i in range(50):
         # Create training data
         X_train, X_test, y_train, y_test = get_model_data(dataframe)
@@ -102,9 +109,13 @@ def test_models(dataframe):
     print()
 
     print("Testing a model with standard scaling applied")
+
+    # Setup vars for the min max scaler trials
     r2_scores = []
     mean_squared_errors = []
     std_scaler = StandardScaler()
+
+    # Run through 50 iterations
     for i in range(50):
         # Create training data
         X_train, X_test, y_train, y_test = get_model_data(dataframe)
@@ -121,13 +132,14 @@ def test_models(dataframe):
         f"mean squared error mean: {sum(mean_squared_errors) / len(mean_squared_errors)}"
     )
     print()
-
     print("Testing a model with min max scaling applied")
 
+    # Setup vars for the standard scaler trials
     r2_scores = []
     mean_squared_errors = []
     min_max_scaler = MinMaxScaler()
 
+    # Run through 50 iterations
     for i in range(50):
         # Create training data
         X_train, X_test, y_train, y_test = get_model_data(dataframe)
