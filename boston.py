@@ -91,7 +91,7 @@ def test_models(dataframe):
 
         # Predict y values and then score our model
         y_pred = linear_reg.predict(X_test)
-        r2_scores.append(r2_score(y_pred, y_test))
+        r2_scores.append(r2_score(y_test, y_pred))
         mean_squared_errors.append(mean_squared_error(y_pred, y_test))
 
     print("All tests have finished running.")
@@ -111,9 +111,9 @@ def test_models(dataframe):
         linear_reg = create_model(std_scaler.fit_transform(X_train), y_train)
 
         # Predict y values and then score our model
-        y_pred = linear_reg.predict(std_scaler.fit_transform(X_test))
-        r2_scores.append(r2_score(y_pred, y_test))
-        mean_squared_errors.append(mean_squared_error(y_pred, y_test))
+        y_pred = linear_reg.predict(std_scaler.transform(X_test))
+        r2_scores.append(r2_score(y_test, y_pred))
+        mean_squared_errors.append(mean_squared_error(y_test, y_pred))
 
     print("All tests have finished running.")
     print(f"r^2 score mean: {sum(r2_scores) / len(r2_scores)}")
@@ -123,9 +123,11 @@ def test_models(dataframe):
     print()
 
     print("Testing a model with min max scaling applied")
+
     r2_scores = []
     mean_squared_errors = []
     min_max_scaler = MinMaxScaler()
+
     for i in range(50):
         # Create training data
         X_train, X_test, y_train, y_test = get_model_data(dataframe)
@@ -133,7 +135,7 @@ def test_models(dataframe):
 
         # Predict y values and then score our model
         y_pred = linear_reg.predict(min_max_scaler.fit_transform(X_test))
-        r2_scores.append(r2_score(y_pred, y_test))
+        r2_scores.append(r2_score(y_test, y_pred))
         mean_squared_errors.append(mean_squared_error(y_pred, y_test))
 
     print("All tests have finished running.")
